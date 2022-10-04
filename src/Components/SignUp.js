@@ -34,6 +34,7 @@ export default function Login() {
         let res=await response.json(); // parses JSON response into native JavaScript objects
         if(res.success){
             localStorage.setItem("authtoken",res.authtoken)
+            localStorage.setItem("username",credentials.email)
             navigate("/")
 
         }else{

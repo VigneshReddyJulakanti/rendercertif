@@ -18,14 +18,34 @@ export default function Your_Certificates() {
 
 
     const [fetched_certi, setfetched_certi] = useState([])
+const getcertuseEf=async()=>{
+  const response = await fetch(`${host}/user/getcertis`, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    // mode: 'cors', // cors, *no-cors, same-origin
+    // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    // credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      'Content-Type': 'application/json',
+     
+    },
+    // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+   // body data type must match "Content-Type" header
+   body: JSON.stringify( {username:localStorage.getItem("username")})
+  });
 
+  // console.log(response)
+  // console.log("sending request")
+  let res=await response.json();
+  setfetched_certi(res)
+}
 useEffect(() => {
 
-    axios.post(`${host}/user/getcertis`,{username:localStorage.getItem("username")})
-    .then(res=>{
-        console.log(res)
-        setfetched_certi(res.data)
-    })
+    // axios.post(`${host}/user/getcertis`,{username:localStorage.getItem("username")})
+    // .then(res=>{
+    //     console.log(res)
+    //     setfetched_certi(res)
+    // })
+    getcertuseEf()
 }, [])
 
    

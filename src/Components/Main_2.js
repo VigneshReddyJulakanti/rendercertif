@@ -11,26 +11,56 @@ export default function Main() {
     const {host}=boom
     // https://res.cloudinary.com/duqmawhn8/image/upload/v1664781202/signature_tbhxik.png
 // link type /upload/logo_link/w_800,h_500/name_link/text1_link/text2_link
-    let templateImg="https://res.cloudinary.com/duqmawhn8/image/upload/w_150,h_150,y_-600,l_sample_logo_z3wsng/w_800,h_500/y_-30,l_text:Wellfleet_40_bold:Sample%20Name/y_-90,l_text:Wellfleet_20:Sample%20text_1(write%20something)/y_50,l_text:Wellfleet_20:Sample%20text_2(write%20something)/w_70,h_60,y_170,l_signature_mgbgdm/v1664831446/template_2_gvvz9z.jpg";
-
+    // let templateImg="https://res.cloudinary.com/duqmawhn8/image/upload/w_150,h_150,y_-600,l_sample_logo_z3wsng/w_800,h_500/y_-30,l_text:Wellfleet_40_bold:Sample%20Name/y_-90,l_text:Wellfleet_20:Sample%20text_1(write%20something)/y_50,l_text:Wellfleet_20:Sample%20text_2(write%20something)/w_70,h_60,y_170,l_signature_mgbgdm/v1664831446/template_2_gvvz9z.jpg";
+    let templateImg="https://res.cloudinary.com/dsxvfg4gt/image/upload/w_150,h_150,y_-600,l_sample_logo_z3wsng/w_800,h_500/y_-30,l_text:Wellfleet_40_bold:Sample%20Name/y_-90,l_text:Wellfleet_20:Sample%20text_1(write%20something)/y_50,l_text:Wellfleet_20:Sample%20text_2(write%20something)/w_70,h_60,y_170,l_signature_mgbgdm/v1664831446/template_2_gvvz9z.jpg"
 
     
     // const [logoimg, setlogoimg] = useState('');  
     const[presentimg,setpresentimg]=useState(templateImg);
-        const logoOnChange=(e)=>{
+        const logoOnChange=async(e)=>{
             
+
+
+
+
+
+
+
             // setlogoimg(e.target.files[0])
             const data=new FormData();
             data.append("image",e.target.files[0]);
-            axios.post(`${host}/user`, data)
-            .then(res=>{
+
+
+
+
+            const response = await fetch(`${host}/user`, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                // mode: 'cors', // cors, *no-cors, same-origin
+                // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                // credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                  'Content-Type': 'application/json',
+                 
+                },
+                // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+               // body data type must match "Content-Type" header
+               body: JSON.stringify( data)
+              });
+      
+              // console.log(response)
+              // console.log("sending request")
+              let res=await response.json();
+
+
+            // axios.post(`${host}/user`, data)
+           
                 console.log(res)
                 let s=presentimg.indexOf("upload")+7;
                 let r=presentimg.indexOf("w_800");
-                let final_text=presentimg.slice(0,s)+"w_150,h_150,y_-600,l_"+res.data.cloudinary_id+"/"+presentimg.slice(r);
+                let final_text=presentimg.slice(0,s)+"w_150,h_150,y_-600,l_"+res.cloudinary_id+"/"+presentimg.slice(r);
                 console.log(final_text)
                 setpresentimg(final_text);
-            })
+          
 
         }
 
@@ -124,12 +154,36 @@ export default function Main() {
 
         }
 
-        const signatureOnChange=(e)=>{
+        const signatureOnChange=async(e)=>{
           
             const data=new FormData();
             data.append("image",e.target.files[0]);
-            axios.post(`${host}/user`, data)
-            .then(res=>{
+
+
+
+            const response = await fetch(`${host}/user`, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                // mode: 'cors', // cors, *no-cors, same-origin
+                // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                // credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                  'Content-Type': 'application/json',
+                 
+                },
+                // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+               // body data type must match "Content-Type" header
+               body: JSON.stringify( data)
+              });
+      
+              // console.log(response)
+              // console.log("sending request")
+              let res=await response.json();
+            // axios.post(`${host}/user`, data)
+
+
+
+
+           
                 console.log(res)
                 let s=presentimg.indexOf(",h_500/")+7;
             let ss=0;
@@ -154,29 +208,52 @@ export default function Main() {
                 }
             }
              
-                let final_text=presentimg.slice(0,ss+1)+"w_70,h_60,y_170,l_"+res.data.cloudinary_id+"/"+presentimg.slice(r);
+                let final_text=presentimg.slice(0,ss+1)+"w_70,h_60,y_170,l_"+res.cloudinary_id+"/"+presentimg.slice(r);
                 console.log(final_text)
                 setpresentimg(final_text);
-            })
+            
         }
 
 
 
-        const makePdf=()=>{
+        const makePdf=async()=>{
             
             let data={
                 username:localStorage.getItem("username"),
                 avatar:presentimg
             }
-            axios.post(`${host}/user/save`, data)
-            .then(res=>{
+
+
+            const response = await fetch(`${host}/user/save`, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                // mode: 'cors', // cors, *no-cors, same-origin
+                // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                // credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                  'Content-Type': 'application/json',
+                 
+                },
+                // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+               // body data type must match "Content-Type" header
+               body: JSON.stringify( data)
+              });
+      
+              // console.log(response)
+              // console.log("sending request")
+              let res=await response.json();
+            // axios.post(`${host}/user/save`, data)
+
+
+
+
+
                
             var doc = new jsPDF();
             doc.text("Certificate",100,10)
             doc.addImage(presentimg,5,40,200,125)
-            doc.text(`certificate id:${res.data._id}`,5,290)
+            doc.text(`certificate id:${res._id}`,5,290)
             doc.save("hello.pdf")
-            })
+            
         
         }
   return (
